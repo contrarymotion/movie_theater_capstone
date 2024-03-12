@@ -40,14 +40,20 @@ void displaySeats(char arr[ROWS][COLS]) {
 void bookSeats(char seats[ROWS][COLS], int numSeats, MYSQL *conn) {
     int count = 0;
     printf("Enter the row letter and column number of the seats you want to book:\n");
-    while (count < numSeats) {
-        char row;
-        int col;
-        printf("Seat %d: ", count + 1);
-        scanf(" %c %d", &row, &col); // Note the space before %c to consume the newline character
 
-        row = row - 'A'; // Convert row letter to row index (0-based)
+    while (count < numSeats) {
+        char row_char; // Variable to store the row letter as character
+        int row;       // Variable to store the row index as integer
+        int col;
+
+        printf("Seat %d: ", count + 1);
+        scanf(" %c%d", &row_char, &col); // Corrected format specifier
+
+        // Convert row letter to row index (0-based)
+        row = (int)(row_char - 'A'); // Convert uppercase letter to integer index (0-based)
+
         col = col - 1; // Convert column number to column index (0-based)
+      
 
         // Error message if seat number was typed incorrectly
         if (row < 0 || row >= ROWS || col < 0 || col >= COLS) {
@@ -63,8 +69,7 @@ void bookSeats(char seats[ROWS][COLS], int numSeats, MYSQL *conn) {
             count++; // Increment the count
 
             // Update the database to mark the seat as occupied
-            updateSeatStatus(conn, row, col); // Assuming 1 represents occupied status
+            // updateSeatStatus(conn, row, col); // Assuming 1 represents occupied status
         }
     }
 }
-

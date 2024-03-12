@@ -8,10 +8,6 @@
 #define ROWS 10 
 #define COLS 10 
 
-// void initializeSeats(char seats[][COLS]);
-// void displaySeats(char seats[][COLS]);
-// void bookSeats(char seats[][COLS], int numSeats);
-
 int main() {
     // int totalSeats = ROWS * COLS;
     // char seats[ROWS][COLS];
@@ -56,7 +52,7 @@ int main() {
     // Print Seat Map
     printf("Seat selection in progress...\n");
     displaySeats(seats);
-    bookSeats(seats, numSeats);
+    bookSeats(seats, numSeats, MYSQL *conn);
 
     // Confirm that the seats were booked
     // Need to add code to tell database that certain seats are now occupied
@@ -81,7 +77,7 @@ int main() {
     printf("Ticket Price: $%.2f\n", ticketPrice);
     printf("Number of Seats: %d\n", numSeats);
     printf("Total Cost: $%.2f\n", totalCost);
-
+    
     closeConnection(conn);
 
     return 0;
