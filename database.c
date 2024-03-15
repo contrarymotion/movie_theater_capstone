@@ -37,7 +37,7 @@ int updateSeatStatus(MYSQL *conn, char row, int col) {
 
 float getTicketPrice(MYSQL *conn, const char *movieName) {
     char query[200];
-    sprintf(query, "SELECT m.title, p.price FROM movie m JOIN price p ON m.id = p.movie_id WHERE m.title = '%s'", movieName);
+    sprintf(query, "SELECT m.title, p.price FROM movie m JOIN price p ON m.movie_id = p.movie_id WHERE m.title = '%s'", movieName);
 
     if (mysql_query(conn, query)) {
         fprintf(stderr, "Failed to execute query: %s\n", mysql_error(conn));

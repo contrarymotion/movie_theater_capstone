@@ -52,7 +52,7 @@ int main() {
     // Print Seat Map
     printf("Seat selection in progress...\n");
     displaySeats(seats);
-    bookSeats(seats, numSeats, MYSQL *conn);
+    bookSeats(seats, numSeats);
 
     // Confirm that the seats were booked
     // Need to add code to tell database that certain seats are now occupied

@@ -37,7 +37,7 @@ void displaySeats(char arr[ROWS][COLS]) {
     }
 }
 
-void bookSeats(char seats[ROWS][COLS], int numSeats, MYSQL *conn) {
+void bookSeats(char seats[ROWS][COLS], int numSeats) {
     int count = 0;
     printf("Enter the row letter and column number of the seats you want to book:\n");
 
