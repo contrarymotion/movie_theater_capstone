@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <mysql/mysql.h>
+#include <ctype.h> // Include ctype.h for toupper() function
 #include "database.h"
 #include "calculate.h"
 #include "SeatSelection.h"
@@ -73,7 +74,7 @@ int main() {
         char choice;
         printf("\nDo you want to purchase more tickets? (y/n): \n");
         scanf(" %c", &choice);
-        if (choice != 'y' && choice != 'Y') {
+        if (toupper(choice) != 'Y') {
             break; // Exit the loop and end the program
         }
 
