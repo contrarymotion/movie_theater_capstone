@@ -36,6 +36,20 @@ void displaySeats(char arr[ROWS][COLS]) {
         printf("\n");
     }
 }
+void mark_seat_taken(MYSQL *conn, char seats[ROWS][COLS], char row_char, int col) {
+    int row = row_char - 'A';
+    if (seats[row][col] == 'X') {
+        printf("Seat (%c, %d) is already booked. Please select another seat.\n", 'A' + row_char, col + 1);
+        return;
+    }
+    seats[row][col] = 'X';
+    printf("Seat marked as taken.\n");
+
+    // Update the database to mark the seat as occupied
+    if (!updateSeatStatus(conn, row_char, col + 1)) {
+        fprintf(stderr, "Error updating seat status in database.\n");
+    }
+} 
 
 void bookSeats(char seats[ROWS][COLS], int numSeats) {
     int count = 0;
@@ -73,3 +87,4 @@ void bookSeats(char seats[ROWS][COLS], int numSeats) {
         }
     }
 }
+

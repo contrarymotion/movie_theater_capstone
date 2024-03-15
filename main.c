@@ -27,6 +27,31 @@ int main() {
         printf("Enter the movie name: ");
         scanf(" %[^\n]%*c", movieName);
 
+        // Ask what showtime they want for that movie
+        // NEED TO REPLACE BOGUS SHOWTIMES WITH REAL ONES IN DATABASE
+        int whichShowtime;
+        printf("Which showtime?\n");
+        printf("1. 3:00 PM\n");
+        printf("2. 6:00 PM\n");
+        printf("3. 9:00 PM\n");
+        printf("Enter your choice (1-3): ");
+        scanf(" %d", &whichShowtime);
+
+        switch (whichShowtime) {
+            case 1:
+                printf("\nYou picked the 3:00 PM showtime.\n");
+                break;
+            case 2:
+                printf("\nYou picked the 6:00 PM showtime.\n");
+                break;
+            case 3:
+                printf("\nYou picked the 9:00 PM showtime.\n");
+                break;
+            default:
+                printf("\nInvalid choice. Please pick a number between 1 and 3.\n");
+                break;
+            }
+
         // Ask the user how many seats they want
         int totalSeats = ROWS * COLS;
         printf("How many seats would you like to purchase? ");
@@ -59,6 +84,14 @@ int main() {
         // Need to add code to tell database that certain seats are now occupied
         printf("\nSeats booked successfully!\n");
         displaySeats(seats);
+        
+        for (int i = 0; i < ROWS; i++) {
+           for (int j = 0; j < COLS; j++) {
+            if (seats[i][j] == 'X') {
+            mark_seat_taken(conn, seats, 'A' + i, j);
+        }
+      }
+    }
 
         // ORIGINAL Total cost calculation
         float totalCost = calculateTotalCost(numSeats, ticketPrice);

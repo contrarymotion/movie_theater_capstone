@@ -8,6 +8,9 @@
 #define PASSWORD "student" // Replace with your MySQL password
 #define DATABASE "movie_theater" // Replace with your database name
 
+#define ROWS 10
+#define COLS 10
+
 MYSQL *initializeConnection() {
     MYSQL *conn = mysql_init(NULL);
     if (!conn) { // Check if initialization failed
@@ -22,14 +25,11 @@ MYSQL *initializeConnection() {
     }
     return conn;
 }
-
-// Query to update the status of a seat, setting occupied to 1 to book
-int updateSeatStatus(MYSQL *conn, char row, int col) {
+int updateSeatStatus(MYSQL *conn, char row_char, int col) {
     char query[100];
-    snprintf(query, sizeof(query), "UPDATE seat SET occupied = 1 WHERE seat_row = '%c' AND seat_column = %d;", row, col);
-
+    snprintf(query, "UPDATE seats SET occupied = 1 WHERE row = '%c' AND col = %d", row_char, col);
     if (mysql_query(conn, query)) {
-        fprintf(stderr, "Failed to update seat status: %s\n", mysql_error(conn));
+        fprintf(stderr, "Error updating occupied status: %s\n", mysql_error(conn));
         return 0; // Return 0 to indicate failure
     }
     return 1; // Return 1 to indicate success
