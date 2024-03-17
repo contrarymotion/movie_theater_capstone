@@ -39,24 +39,25 @@ void displaySeats(char arr[ROWS][COLS]) {
 
 void bookSeats(MYSQL *conn, int numSeats, int movieId) {
    int count = 0;
-   printf("Enter the row letter and column number of the seats you want to book.\n");
+   printf("\nEnter the row letter and column number of the seats you want to book.\n");
 
    while (count < numSeats) {
        char row_char; // Variable to store the row letter as character
        int col;       // Variable to store the column number as integer
 
-       printf("Enter the seat row (A-J): ");
-       scanf(" %c", &row_char);
-       //row_char = toupper(row_char); // Ensure row_char is uppercase for consistency
-       if (row_char < 'A' || row_char > 'J') {
-           printf("Invalid row. Please try again.\n");
+       printf("Enter the seat (e.g., A3): ");
+       if (scanf(" %c%d", &row_char, &col) != 2) {
+           printf("Invalid input format. Please enter in the format 'RowColumn' (e.g., A3).\n");
+           // Clear input buffer
+           while (getchar() != '\n');
            continue;
        }
 
-       printf("Enter the column (1-%d): ", COLS);
-       scanf(" %d", &col);
-       if (col < 1 || col > COLS) {
-           printf("Invalid column. Please try again.\n");
+       // Convert row_char to uppercase for consistency
+       row_char = toupper(row_char);
+
+       if (row_char < 'A' || row_char > 'J' || col < 1 || col > COLS) {
+           printf("Invalid seat. Please try again.\n");
            continue;
        }
 

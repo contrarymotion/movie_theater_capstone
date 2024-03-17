@@ -24,34 +24,29 @@ MYSQL *initializeConnection() {
 }
 
 int updateSeatStatus(MYSQL *conn, int movieId, char row, int col) {
-    char query[1024]; // Ensure your query buffer is large enough
-    snprintf(query, sizeof(query),
-             "UPDATE seat_map "
-             "SET occupied = 1 "
-             "WHERE seat_map_id IN ("
-             "SELECT * FROM ("
-             "SELECT seat_map.seat_map_id "
-             "FROM seat_map "
-             "JOIN movie_map ON seat_map.seat_map_id = movie_map.seat_map_id "
-             "WHERE movie_map.movie_id = %d "
-             "AND seat_map.seat_row = '%c' "
-             "AND seat_map.seat_column = %d "
-             "AND seat_map.occupied = 0"
-             ") AS subquery"
-             ")", movieId, row, col);
+  char query[1024];
+  snprintf(query, sizeof(query),
+    "UPDATE seat_map "
+    "JOIN movie_map ON seat_map.seat_map_id = movie_map.seat_map_id "
+    "SET seat_map.occupied = 1 "
+    "WHERE movie_map.movie_id = %d "
+    "AND seat_map.seat_row = '%c' "
+    "AND seat_map.seat_column = %d "
+    "AND seat_map.occupied = 0",
+    movieId, row, col);
 
-    // Execute the query
-    if (mysql_query(conn, query)) {
-        fprintf(stderr, "MySQL query error: %s\n", mysql_error(conn));
-        return 0; // Failure to update the seat status
-    }
+  // Execute the query
+  if (mysql_query(conn, query)) {
+      fprintf(stderr, "MySQL query error: %s\n", mysql_error(conn));
+      return 0; // Failure to update the seat status
+  }
 
-    if (mysql_affected_rows(conn) == 0) {
-        // No rows were updated, indicating the seat was already booked or does not exist
-        return 0;
-    }
+  if (mysql_affected_rows(conn) == 0) {
+      // No rows were updated indicating the seat was already booked or does not exist
+      return 0;
+  }
 
-    return 1; // Successfully updated the seat status
+  return 1; // Successfully updated the seat status
 }
 
 float getTicketPrice(MYSQL *conn, const char *movieName) {
