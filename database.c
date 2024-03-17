@@ -4,14 +4,10 @@
 #include <mysql/mysql.h>
 #include <ctype.h>
 
-
 #define SERVER "localhost"
 #define USER "root"
 #define PASSWORD "student"
 #define DATABASE "movie_theater"
-
-
-
 
 MYSQL *initializeConnection() {
   MYSQL *conn = mysql_init(NULL);
@@ -27,9 +23,6 @@ MYSQL *initializeConnection() {
   return conn;
 }
 
-
-
-
 /*
 // Query to pull showtimes from showtime table
 void showtimes(MYSQL *conn) {
@@ -37,16 +30,12 @@ void showtimes(MYSQL *conn) {
   printf("List of showtimes:\n");
   snprintf(query, sizeof(query), "SELECT * FROM showtime");
 
-
-
-
   // if (mysql_query(conn, query)) {
   //     fprintf(stderr, "Failed to load showtimes: %s\n", mysql_error(conn));
   //     return 1; // Return 1 to indicate failure
   // }
   // return 0; // Return 0 to indicate success
 } */
-
 
 int updateSeatStatus(MYSQL *conn, int movieId, char row, int col) {
    char query[1024]; // Ensure your query buffer is large enough
@@ -71,31 +60,22 @@ printf("%s\n", query);
        return 0; // Failure to update the seat status
    }
 
-
    if (mysql_affected_rows(conn) == 0) {
        // No rows were updated, indicating the seat was already booked or does not exist
        return 0;
    }
 
-
    return 1; // Successfully updated the seat status
 }
-
 
 float getTicketPrice(MYSQL *conn, const char *movieName) {
   char query[200];
   sprintf(query, "SELECT m.title, p.price FROM movie m JOIN price p ON m.movie_id = p.movie_id WHERE m.title = '%s'", movieName);
 
-
-
-
   if (mysql_query(conn, query)) {
       fprintf(stderr, "Failed to retrieve ticket prices: %s\n", mysql_error(conn));
       return -1;
   }
-
-
-
 
   MYSQL_RES *res = mysql_store_result(conn);
   if (!res) { // Check if storing result failed
@@ -103,34 +83,21 @@ float getTicketPrice(MYSQL *conn, const char *movieName) {
       return -1;
   }
 
-
-
-
   MYSQL_ROW row = mysql_fetch_row(res);
   if (!row) { // Check if fetching row failed
       mysql_free_result(res); // Free result before returning
       return -1;
   }
 
-
-
-
   float ticketPrice = atof(row[1]);
   mysql_free_result(res);
-
-
-
 
   return ticketPrice;
 }
 
-
-
-
 void closeConnection(MYSQL *conn) {
   mysql_close(conn);
 }
-
 
 int selectMovie(MYSQL *conn) {
    // Query the database for available movies
@@ -139,13 +106,11 @@ int selectMovie(MYSQL *conn) {
        return -1; // Indicate failure
    }
 
-
    MYSQL_RES *result = mysql_store_result(conn);
    if (result == NULL) {
        fprintf(stderr, "%s\n", mysql_error(conn));
        return -1;
    }
-
 
    printf("Available Movies:\n");
    MYSQL_ROW row;
@@ -153,12 +118,10 @@ int selectMovie(MYSQL *conn) {
        printf("%s: %s\n", row[0], row[1]); // Display movie_id and title
    }
 
-
    // Ask the user to select a movie by its ID
    int movieId;
    printf("Enter the movie ID you want to watch: ");
    scanf("%d", &movieId);
-
 
    mysql_free_result(result);
    return movieId;
