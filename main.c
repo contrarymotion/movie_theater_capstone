@@ -24,6 +24,8 @@ int main() {
         printf("Stored procedure executed successfully.\n");
     }
 
+    float totalSales = 0;
+
     do {
         // Greet and ask the user to enter the movie they want to watch
         printf("Welcome to the Capstone Theater!\n");
@@ -76,6 +78,8 @@ int main() {
         printf("Ticket Price: $%.2f\n", ticketPrice);
         printf("Number of Seats: %d\n", numSeats);
         printf("Total Cost: $%.2f\n", totalCost);
+
+        totalSales += totalCost;
 
         char choice;
         printf("\nDo you want to purchase more tickets? (y/n): \n");
