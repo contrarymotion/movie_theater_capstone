@@ -21,19 +21,19 @@ int main() {
     if (mysql_query(conn, "CALL InsertMovieSeatMappings()")) {
         fprintf(stderr, "%s\n", mysql_error(conn));
     } else {
-        printf("Stored procedure executed successfully.\n");
+        printf("======================================\n");
     }
 
     float totalSales = 0;
 
     do {
         // Greet and ask the user to enter the movie they want to watch
-        printf("Welcome to the Capstone Theater!\n");
+        printf("Welcome to the Capstone Theater!\n\n");
 
         int movieId = selectMovie(conn); // Function to display movies and return selected movieId
 
         char movieName[50];
-        printf("Enter the movie name: ");
+        printf("\nEnter the movie name: ");
         scanf(" %[^\n]%*c", movieName);
 
         // Ask the user how many seats they want

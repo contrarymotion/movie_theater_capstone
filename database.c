@@ -93,7 +93,7 @@ int selectMovie(MYSQL *conn) {
         return -1;
     }
 
-    printf("Available Movies:\n");
+    printf("Available Movies:\n\n");
     MYSQL_ROW row;
     while ((row = mysql_fetch_row(result)) != NULL) {
         printf("%s: %s\n", row[0], row[1]); // Display movie_id and title
@@ -101,7 +101,7 @@ int selectMovie(MYSQL *conn) {
 
     // Ask the user to select a movie by its ID
     int movieId;
-    printf("Enter the movie ID you want to watch: ");
+    printf("\nEnter the movie ID you want to watch: ");
     scanf("%d", &movieId);
 
     mysql_free_result(result);
