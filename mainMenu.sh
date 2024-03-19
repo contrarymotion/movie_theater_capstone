@@ -9,8 +9,11 @@ display_menu() {
     # Aesthetic RGB colors to indicate you are now in main menu
     echo
     echo -e "\e[31mMovie Theater Main Menu\e[0m"
+    sleep .75
     echo -e "\e[32mMovie Theater Main Menu\e[0m"
+    sleep .75
     echo -e "\e[34mMovie Theater Main Menu\e[0m"
+    sleep .75
     # echo "Movie Theater Main Menu"
     echo
     echo "What would you like to do today?"
