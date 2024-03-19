@@ -11,7 +11,7 @@
 void initializeSeats(char arr[ROWS][COLS]) {
   for (int i = 0; i < ROWS; i++) {
       for (int j = 0; j < COLS; j++) {
-          arr[i][j] = 'O'; // Letter 'O' represents an available seat
+          arr[i][j] = 'O'; // 0 represents an available seat
       }
   }
 }
@@ -25,7 +25,7 @@ void displaySeats(char arr[ROWS][COLS]) {
   printf("\n");
   printf("    ");
   for (int j = 0; j < COLS; j++) {
-      printf("- "); // Print separator
+      printf("- "); 
   }
   printf("\n");
   for (int i = 0; i < ROWS; i++) {
@@ -42,8 +42,8 @@ void bookSeats(MYSQL *conn, int numSeats, int movieId) {
    printf("\nEnter the row letter and column number of the seats you want to book.\n");
 
    while (count < numSeats) {
-       char row_char; // Variable to store the row letter as character
-       int col;       // Variable to store the column number as integer
+       char row_char; 
+       int col;       
 
        printf("Enter the seat (e.g., A3): ");
        if (scanf(" %c%d", &row_char, &col) != 2) {

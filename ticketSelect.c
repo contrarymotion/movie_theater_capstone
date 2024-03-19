@@ -18,7 +18,6 @@ int main() {
     scanf("%s", movieName);
     
     // Input the price of the movie
-
     printf("Enter the ticket price: $");
     scanf("%f", &ticketPrice);
 
