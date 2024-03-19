@@ -28,7 +28,7 @@ int main() {
 
     do {
         // Greet and ask the user to enter the movie they want to watch
-        printf("Welcome to the Capstone Theater!\n\n");
+        printf("Let's get your tickets!\n\n");
 
         int movieId = selectMovie(conn); // Function to display movies and return selected movieId
 
