@@ -7,14 +7,18 @@ DB_NAME="movie_theater"
 
 display_menu() {
     # Aesthetic RGB colors to indicate you are now in main menu
+    echo
     echo -e "\e[31mMovie Theater Main Menu\e[0m"
     echo -e "\e[32mMovie Theater Main Menu\e[0m"
     echo -e "\e[34mMovie Theater Main Menu\e[0m"
     # echo "Movie Theater Main Menu"
+    echo
     echo "What would you like to do today?"
+    echo
     echo "1. Display list of movies and their showtimes"
     echo "2. Book seats"
     echo "3. Exit"
+    echo
     echo "Please enter your choice (1-3): "
 }
 
@@ -28,10 +32,10 @@ display_movies() {
 book_seats() {
     echo "Booking seats..."
     # Navigate to the project directory (if necessary)
-    cd /Desktop/Capstone/src
+    cd /Desktop/Capstone/src 2>/dev/null
 
     # Run make to compile the project
-    make clean && make
+    make clean >/dev/null && make >/dev/null 2>&1
 
     # Check if make was successful
     if [ $? -eq 0 ]; then
