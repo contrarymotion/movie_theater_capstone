@@ -35,10 +35,10 @@ display_movies() {
     echo "=================================="
     echo -e "\e[44mList of Movies Playing:\e[0m"
     echo "=================================="
+    echo
     echo "Dune: Part Two @ 3:00 PM"
     echo "Forrest Gump @ 6:00 PM"
     echo "Wonka @ 9:00 PM"
-    echo
 }
 
 book_seats() {
