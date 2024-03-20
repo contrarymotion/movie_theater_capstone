@@ -25,7 +25,7 @@ int main() {
         printf("======================================\n");
     }
 
-    float totalSales = 0;
+    // float totalSales = 0;
 
     do {
         // Greet and ask the user to enter the movie they want to watch
@@ -34,29 +34,34 @@ int main() {
         char movieName[50];
         int movieId = selectMovie(conn); // Function to display movies and return selected movieId
 
-    // Hardcoded conditional ---- temporary fix
-    if (movieId == 1) {
-        strcpy(movieName, "Dune: Part Two");
-    } else if (movieId == 2) {
-        strcpy(movieName, "Forrest Gump");
-    } else if (movieId == 3) {
-        strcpy(movieName, "Wonka");
-    } else {
-        printf("Invalid movie ID entered.\n");
-        return 1; // Exit the program with an error status
-    }
+        // Hardcoded conditional ---- temporary fix
+        if (movieId == 1) {
+            strcpy(movieName, "Dune: Part Two");
+        } else if (movieId == 2) {
+            strcpy(movieName, "Forrest Gump");
+        } else if (movieId == 3) {
+            strcpy(movieName, "Wonka");
+        } else {
+            printf("Invalid movie ID entered.\n");
+            return 1; // Exit the program with an error status
+        }
         
-        // printf("\nEnter the movie name: ");
-        // scanf(" %[^\n]%*c", movieName);
-
         // Ask the user how many seats they want
         int numSeats;
         int totalSeats = ROWS * COLS;
-        printf("\nHow many seats would you like to purchase? ");
-        scanf("%d", &numSeats);
-        if (numSeats > totalSeats) {
-            printf("Sorry, we don't have enough seats available.\n");
-            return 1;
+        // Keep prompting user until valid input is provided
+        while (1) {
+            printf("\nHow many seats would you like to purchase? ");
+            // Validate input
+            if (scanf("%d", &numSeats) != 1 || numSeats <= 0) {
+                printf("Invalid input. Please enter a positive integer.\n");
+                // Clear input buffer
+                while (getchar() != '\n');
+            } else if (numSeats > totalSeats) {
+                printf("Sorry, we don't have enough seats available.\n");
+            } else {
+                break; // Valid input, exit loop
+            }
         }
 
         // Get ticket price from database
@@ -74,13 +79,11 @@ int main() {
 
         // Print Seat Map
         printf("\nSeat selection in progress...\n");
-        displaySeats(seats);
         //bookSeats(MYSQL *conn, char seats[ROWS][COLS], int numSeats, int movieId);
         bookSeats(conn, numSeats, movieId);
 
         // Confirm that the seats were booked
         printf("\nSeats booked successfully!\n\n");
-        displaySeats(seats);
 
         // ORIGINAL Total cost calculation
         float totalCost = calculateTotalCost(numSeats, ticketPrice);
@@ -92,7 +95,7 @@ int main() {
         printf("Number of Seats: %d\n", numSeats);
         printf("Total Cost: $%.2f\n", totalCost);
 
-        totalSales += totalCost;
+        // totalSales += totalCost;
 
         char choice;
         printf("\nDo you want to purchase more tickets? (y/n): \n");
