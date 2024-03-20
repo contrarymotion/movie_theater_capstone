@@ -4,6 +4,7 @@
 #include "database.h"
 #include "calculate.h"
 #include "SeatSelection.h"
+#include <string.h>
 #include <ctype.h> // Include ctype.h for toupper() function
 
 #define ROWS 10
@@ -30,11 +31,23 @@ int main() {
         // Greet and ask the user to enter the movie they want to watch
         printf("Let's get your tickets!\n\n");
 
+        char movieName[50];
         int movieId = selectMovie(conn); // Function to display movies and return selected movieId
 
-        char movieName[50];
-        printf("\nEnter the movie name: ");
-        scanf(" %[^\n]%*c", movieName);
+    // Hardcoded conditional ---- temporary fix
+    if (movieId == 1) {
+        strcpy(movieName, "Dune: Part Two");
+    } else if (movieId == 2) {
+        strcpy(movieName, "Forrest Gump");
+    } else if (movieId == 3) {
+        strcpy(movieName, "Wonka");
+    } else {
+        printf("Invalid movie ID entered.\n");
+        return 1; // Exit the program with an error status
+    }
+        
+        // printf("\nEnter the movie name: ");
+        // scanf(" %[^\n]%*c", movieName);
 
         // Ask the user how many seats they want
         int numSeats;
@@ -66,7 +79,7 @@ int main() {
         bookSeats(conn, numSeats, movieId);
 
         // Confirm that the seats were booked
-        printf("\nSeats booked successfully!\n");
+        printf("\nSeats booked successfully!\n\n");
         displaySeats(seats);
 
         // ORIGINAL Total cost calculation

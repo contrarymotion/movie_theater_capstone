@@ -50,7 +50,7 @@ book_seats() {
     # SQL_FILE="/Desktop/Capstone/src/setup.sql"
 
     # Execute the SQL file
-    mysql -h $MYSQL_HOST -u $MYSQL_USER --password=$MYSQL_PASSWORD $MYSQL_DB < $SQL_FILE
+    mysql -h $MYSQL_HOST -u $MYSQL_USER --password=$MYSQL_PASSWORD $MYSQL_DB < $SQL_FILE >/dev/null 2>&1
 
     # Run make to compile the project
     make clean >/dev/null && make >/dev/null 2>&1

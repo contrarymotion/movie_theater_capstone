@@ -104,6 +104,14 @@ int selectMovie(MYSQL *conn) {
     printf("\nEnter the movie ID you want to watch: ");
     scanf("%d", &movieId);
 
+    // Check if the entered movieId is within the valid range (1, 2, or 3)
+    while (movieId < 1 || movieId > 3) {
+    printf("Invalid input. Please enter a valid movie ID (1, 2, or 3): ");
+    // Clear the input buffer before reading again
+    while(getchar() != '\n');
+    scanf("%d", &movieId);
+    }
+
     mysql_free_result(result);
     return movieId;
 }
