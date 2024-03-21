@@ -12,20 +12,22 @@
 
 int main() {
     MYSQL *conn = initializeConnection();
-  
+
     // Error message if it fails to connect
     if (conn == NULL) {
         fprintf(stderr, "Failed to connect to database.\n");
         return 1;
     }
 
+    // Call stored procedure in database
     if (mysql_query(conn, "CALL InsertMovieSeatMappings()")) {
         fprintf(stderr, "%s\n", mysql_error(conn));
     } else {
         printf("======================================\n");
     }
 
-    // float totalSales = 0;
+    // Total sales for current session starts at zero
+    float totalSales = 0;
 
     do {
         // Greet and ask the user to enter the movie they want to watch
@@ -34,7 +36,7 @@ int main() {
         char movieName[50];
         int movieId = selectMovie(conn); // Function to display movies and return selected movieId
 
-        // Hardcoded conditional ---- temporary fix
+        // Hardcoded conditional to assign movieId to movie title
         if (movieId == 1) {
             strcpy(movieName, "Dune: Part Two");
         } else if (movieId == 2) {
@@ -45,7 +47,7 @@ int main() {
             printf("Invalid movie ID entered.\n");
             return 1; // Exit the program with an error status
         }
-        
+
         // Ask the user how many seats they want
         int numSeats;
         int totalSeats = ROWS * COLS;
@@ -79,23 +81,28 @@ int main() {
 
         // Print Seat Map
         printf("\nSeat selection in progress...\n");
-        //bookSeats(MYSQL *conn, char seats[ROWS][COLS], int numSeats, int movieId);
+        displaySeats(seats);
         bookSeats(conn, numSeats, movieId);
 
         // Confirm that the seats were booked
-        printf("\nSeats booked successfully!\n\n");
+        printf("\nSeats booked successfully!\n");
+        printf("Here's your receipt.\n");
 
-        // ORIGINAL Total cost calculation
+        // Total cost calculation
         float totalCost = calculateTotalCost(numSeats, ticketPrice);
 
         // Print receipt for the transaction
-        printf("\nReceipt:\n");
-        printf("Movie: %s\n", movieName);
-        printf("Ticket Price: $%.2f\n", ticketPrice);
-        printf("Number of Seats: %d\n", numSeats);
-        printf("Total Cost: $%.2f\n", totalCost);
+        printf("========================================\n");
+        printf("||  Receipt:                          ||\n");
+        printf("    Movie: %s                          \n", movieName);
+        printf("||  Ticket Price: $%.2f              ||\n", ticketPrice);
+        printf("    Number of Seats: %d                \n", numSeats);
+        printf("||  Total Cost: $%.2f                ||\n", totalCost);
+        printf("    Thank you for being our guest!     \n");
+        printf("========================================\n");
 
-        // totalSales += totalCost;
+        // Add total cost to total sales for this session
+        totalSales += totalCost;
 
         char choice;
         printf("\nDo you want to purchase more tickets? (y/n): \n");
