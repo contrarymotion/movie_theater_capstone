@@ -2,8 +2,9 @@
 #include <stdlib.h>
 #include <mysql/mysql.h>
 #include "database.h"
-// #include "SeatSelection.h"
+#include <ctype.h>
 
+// 100 seats per seat map
 #define ROWS 10
 #define COLS 10
 
@@ -11,7 +12,7 @@
 void initializeSeats(char arr[ROWS][COLS]) {
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
-            arr[i][j] = 'O'; // Letter 'O' represents an available seat
+            arr[i][j] = 'O'; // 0 represents an available seat
         }
     }
 }
@@ -25,7 +26,7 @@ void displaySeats(char arr[ROWS][COLS]) {
     printf("\n");
     printf("    ");
     for (int j = 0; j < COLS; j++) {
-        printf("- "); // Print separator
+        printf("- "); 
     }
     printf("\n");
     for (int i = 0; i < ROWS; i++) {
@@ -37,34 +38,37 @@ void displaySeats(char arr[ROWS][COLS]) {
     }
 }
 
-void bookSeats(char seats[ROWS][COLS], int numSeats, MYSQL *conn) {
-    int count = 0;
-    printf("Enter the row letter and column number of the seats you want to book:\n");
+void bookSeats(MYSQL *conn, int numSeats, int movieId) {
+   int count = 0;
+   printf("\nEnter the row letter and column number of the seats you want to book.\n");
+
     while (count < numSeats) {
-        char row;
-        int col;
-        printf("Seat %d: ", count + 1);
-        scanf(" %c %d", &row, &col); // Note the space before %c to consume the newline character
-
-        row = row - 'A'; // Convert row letter to row index (0-based)
-        col = col - 1; // Convert column number to column index (0-based)
-
-        // Error message if seat number was typed incorrectly
-        if (row < 0 || row >= ROWS || col < 0 || col >= COLS) {
-            printf("Invalid seat selection. Please select again. Remember to use an uppercase letter.\n");
-            continue; // skip this block of code if seat number was typed correctly
+        char row_char; 
+        int col;       
+        
+        // Input Validation
+        printf("Enter the seat (e.g., A3): ");
+        if (scanf(" %c%d", &row_char, &col) != 2) {
+            printf("Invalid input format. Please enter in the format 'RowColumn' (e.g., A3).\n");
+            // Clear input buffer
+            while (getchar() != '\n');
+            continue;
         }
 
-        // Error message if seat is already occupied
-        if (seats[row][col] == 'X') {
-            printf("Seat (%c, %d) is already booked. Please select another seat.\n", 'A' + row, col + 1);
-        } else {
-            seats[row][col] = 'X'; // 'X' represents a booked seat
-            count++; // Increment the count
+        // Convert row_char to uppercase for consistency
+        row_char = toupper(row_char);
 
-            // Update the database to mark the seat as occupied
-            updateSeatStatus(conn, row, col); // Assuming 1 represents occupied status
+        if (row_char < 'A' || row_char > 'J' || col < 1 || col > COLS) {
+            printf("Invalid seat. Please try again.\n");
+            continue;
+        }
+
+        // Update seat status
+        if (updateSeatStatus(conn, movieId, row_char, col)) {
+            printf("Seat %c%d successfully booked.\n", row_char, col);
+            count++;
+        } else {
+            printf("Seat %c%d is already booked or could not be booked. Please select another seat.\n", row_char, col);
         }
     }
 }
-

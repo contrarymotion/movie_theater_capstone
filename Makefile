@@ -1,8 +1,8 @@
 # Use "make" to compile all files for movie_theater app
 
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c99 -pedantic
-LIBS = `mysql_config --cflags --libs`
+CFLAGS = -Wall -Wextra -std=c99 -pedantic -I../include
+LIBS = `mysql_config --cflags --libs` -lmysqlclient
 
 SRCS = main.c database.c calculate.c SeatSelection.c
 OBJS = $(SRCS:.c=.o)
@@ -24,4 +24,3 @@ populate_seats:
 
 clean:
 	rm -f $(OBJS) $(TARGET)
-	

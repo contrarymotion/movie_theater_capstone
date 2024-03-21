@@ -3,4 +3,4 @@
 
 float calculateTotalCost(float tickets, float price);
 
-#endif /* CALCULATE_H */
+#endif
