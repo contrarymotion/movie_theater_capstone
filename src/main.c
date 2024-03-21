@@ -3,7 +3,7 @@
 #include <mysql/mysql.h>
 #include "database.h"
 #include "calculate.h"
-#include "SeatSelection.h"
+#include "seatSelection.h"
 #include <string.h>
 #include <ctype.h> // Include ctype.h for toupper() function
 
