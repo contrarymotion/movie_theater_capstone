@@ -24,4 +24,3 @@ populate_seats:
 
 clean:
 	rm -f $(OBJS) $(TARGET)
-	
