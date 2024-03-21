@@ -32,6 +32,5 @@ typedef struct {
 
 void initializeSeats(char arr[ROWS][COLS]);
 void displaySeats(char arr[ROWS][COLS]);
-void bookSeats(MYSQL *conn, int numSeats, int movieId);
 
 #endif
